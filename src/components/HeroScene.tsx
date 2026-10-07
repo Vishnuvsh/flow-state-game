@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Matter from 'matter-js';
 
 const getAudioCtx = () => {
@@ -367,17 +367,17 @@ export default function HeroScene() {
   }
 
   return (
-    <div ref={sceneRef} style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden', background: isZen ? 'radial-gradient(circle at 50% 50%, #0a1f1c 0%, #000 100%)' : (isOn ? '#0d0d0d' : '#030303'), transition: 'background 1s ease' }}>
+    <div ref={sceneRef} style={{ width: '100vw', height: '100vh', position: 'relative', overflow: 'hidden', backgroundColor: isZen ? 'rgba(10, 31, 28, 0.4)' : (isOn ? 'rgba(0,0,0,0)' : 'rgba(0,0,0,0.8)'), transition: 'background-color 1s ease' }}>
       <style>{`
         @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.08); } 30% { transform: scale(1); } 45% { transform: scale(1.04); } 60% { transform: scale(1); } 100% { transform: scale(1); } }
         @keyframes glitch { 0% { transform: translate(0) } 20% { transform: translate(-2px, 1px) } 40% { transform: translate(-1px, -1px) } 60% { transform: translate(2px, 1px) } 80% { transform: translate(1px, -1px) } 100% { transform: translate(0) } }
       `}</style>
       
-      <div ref={lightRef} style={{ position: 'absolute', top: 0, left: 0, width: 800, height: 800, background: isZen ? 'radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 60%)' : 'radial-gradient(circle, rgba(0,255,135,0.15) 0%, rgba(96,239,255,0.05) 40%, transparent 70%)', pointerEvents: 'none', transition: 'opacity 0.2s ease, background 1s ease', willChange: 'transform' }} />
+      <div ref={lightRef} style={{ position: 'absolute', top: 0, left: 0, width: 800, height: 800, background: isZen ? 'radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 60%)' : 'radial-gradient(circle, rgba(0,255,135,0.2) 0%, rgba(96,239,255,0.1) 40%, transparent 70%)', pointerEvents: 'none', transition: 'opacity 0.2s ease, background 1s ease', willChange: 'transform' }} />
       <div ref={stringRef} style={{ position: 'absolute', top: 0, left: 0, height: 2, background: 'rgba(255,255,255,0.2)', transformOrigin: '0 50%', pointerEvents: 'none' }} />
       
       {distData.map((d, i) => (
-        <div key={`dist-${i}`} ref={el => distRefs.current[i] = el} style={{ position: 'absolute', top: 0, left: 0, width: d.w, height: 20, background: 'rgba(255,50,50,0.2)', border: '1px solid rgba(255,50,50,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff3333', fontSize: 10, fontWeight: 'bold', pointerEvents: 'none', transition: 'opacity 0.5s', zIndex: 4 }}>
+        <div key={`dist-${i}`} ref={el => distRefs.current[i] = el} className="distraction-item" style={{ position: 'absolute', top: 0, left: 0, width: d.w, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ff5555', fontSize: 11, fontWeight: 'bold', pointerEvents: 'none', transition: 'opacity 0.5s', zIndex: 4, letterSpacing: 1 }}>
           {d.text}
         </div>
       ))}
@@ -402,36 +402,41 @@ export default function HeroScene() {
       <div style={{ position: 'absolute', left: 130, bottom: 50, width: 4, height: 100, background: '#444' }} />
       <div style={{ position: 'absolute', left: 170, bottom: 50, width: 4, height: 100, background: '#444' }} />
 
-      <div style={{ position: 'absolute', top: 20, left: 20, fontFamily: 'monospace', fontSize: 11, color: 'rgba(255,255,255,0.5)', zIndex: 10 }}>
-        &larr; your timeline<br />status · IN PROGRESS<br />gravity · {(1 + Math.min(misses * 0.3, 2.5)).toFixed(1)}G<br />attempts · {shots}<br />success · {hits}
+      <div className="glass-panel" style={{ position: 'absolute', top: 20, left: 20, fontSize: 13, color: 'rgba(255,255,255,0.7)', zIndex: 10, lineHeight: 1.6, minWidth: 160 }}>
+        <div style={{ color: '#fff', fontWeight: 700, marginBottom: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: 1 }}>Timeline Stats</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Status</span> <span style={{ color: isOn ? '#00ff87' : '#ff5555', fontWeight: 600 }}>{isOn ? 'IN PROGRESS' : 'BURNOUT'}</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Gravity</span> <span style={{ color: '#fff' }}>{(1 + Math.min(misses * 0.3, 2.5)).toFixed(1)}G</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Attempts</span> <span style={{ color: '#fff' }}>{shots}</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>Success</span> <span style={{ color: '#fff' }}>{hits}</span></div>
       </div>
 
-      <div style={{ position: 'absolute', top: 20, right: 40, fontFamily: 'monospace', fontSize: 11, zIndex: 10 }}>
-        <button onClick={() => setSoundOn(!soundOn)} style={{ background: 'none', border: 'none', color: soundOn ? (isZen ? '#ffd700' : '#00ff87') : 'rgba(255,255,255,0.3)', cursor: 'pointer', fontFamily: 'monospace', fontSize: 11 }}>
-          sound: {soundOn ? 'on' : 'off'}
+      <div style={{ position: 'absolute', top: 20, right: 40, zIndex: 10 }}>
+        <button className="interactive-btn" onClick={() => setSoundOn(!soundOn)} style={{ color: soundOn ? (isZen ? '#ffd700' : '#00ff87') : 'rgba(255,255,255,0.5)' }}>
+          Sound: {soundOn ? 'ON' : 'OFF'}
         </button>
       </div>
 
-      <div style={{ position: 'absolute', top: '50%', right: 40, transform: 'translateY(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
-        <span style={{ fontFamily: 'monospace', fontSize: 10, color: 'rgba(255,255,255,0.5)' }}>FOCUS</span>
-        <button onClick={handleSwitch} style={{ width: 40, height: 80, background: isOn ? '#fff' : '#222', border: '2px solid #444', borderRadius: 6, cursor: 'pointer', position: 'relative', transition: 'all 0.2s' }}>
-          <div style={{ position: 'absolute', left: 4, right: 4, height: 30, background: isOn ? '#ddd' : '#444', borderRadius: 4, top: isOn ? 4 : 42, transition: 'top 0.2s' }} />
+      <div className="glass-panel" style={{ position: 'absolute', top: '50%', right: 40, transform: 'translateY(-50%)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 15, padding: '20px 15px' }}>
+        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.8)', fontWeight: 700, letterSpacing: 1 }}>FOCUS</span>
+        <button onClick={handleSwitch} style={{ width: 44, height: 88, background: isOn ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.5)', border: `2px solid ${isOn ? '#fff' : '#444'}`, borderRadius: 22, cursor: 'pointer', position: 'relative', transition: 'all 0.3s ease', boxShadow: isOn ? '0 0 15px rgba(255,255,255,0.2)' : 'none' }}>
+          <div style={{ position: 'absolute', left: 4, right: 4, height: 34, background: isOn ? '#fff' : '#444', borderRadius: 17, top: isOn ? 4 : 46, transition: 'all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)', boxShadow: isOn ? '0 0 10px rgba(255,255,255,0.8)' : 'none' }} />
         </button>
       </div>
 
       <div style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', textAlign: 'center', width: '100%', pointerEvents: 'none', opacity: isOn ? 1 : 0.6 }}>
         <div style={{ animation: !isOn ? 'glitch 0.3s infinite' : 'none', display: 'inline-block' }}>
-          <h1 style={{ fontSize: '4.5rem', fontWeight: 900, margin: 0, color: isZen ? '#ffd700' : '#fff', letterSpacing: '-2px', textShadow: isOn ? (isZen ? '0 10px 40px rgba(255,215,0,0.6)' : '0 10px 30px rgba(0,255,135,0.4)') : 'none', transition: 'all 0.5s ease' }}>
+          <h1 style={{ fontFamily: 'Outfit, sans-serif', fontSize: '5rem', fontWeight: 800, margin: 0, color: isZen ? '#ffd700' : '#fff', letterSpacing: '-2px', textShadow: isOn ? (isZen ? '0 10px 40px rgba(255,215,0,0.6)' : '0 10px 30px rgba(0,255,135,0.4)') : 'none', transition: 'all 0.5s ease' }}>
             {titleText}
           </h1>
-          <p style={{ marginTop: 10, color: isZen ? 'rgba(255,215,0,0.8)' : 'rgba(255,255,255,0.7)', fontSize: '1.2rem', transition: 'all 0.5s ease' }}>
+          <p style={{ marginTop: 10, color: isZen ? 'rgba(255,215,0,0.8)' : 'rgba(255,255,255,0.7)', fontSize: '1.2rem', transition: 'all 0.5s ease', fontWeight: 400 }}>
             {subtitleText}
           </p>
         </div>
       </div>
 
-      <div style={{ position: 'absolute', bottom: 20, right: 20, fontFamily: 'monospace', fontSize: 11, color: 'rgba(255,255,255,0.3)', textAlign: 'right' }}>
-        The Journey<br/>{isZen ? 'ZEN MODE ACTIVE' : 'Physics Engine Active'}
+      <div className="glass-panel" style={{ position: 'absolute', bottom: 20, right: 20, fontSize: 13, color: 'rgba(255,255,255,0.7)', textAlign: 'right' }}>
+        <div style={{ fontWeight: 700, color: '#fff', fontSize: 11, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>The Journey</div>
+        <div style={{ color: isZen ? '#ffd700' : '#00ff87', fontWeight: 600 }}>{isZen ? 'ZEN MODE ACTIVE' : 'Physics Engine Active'}</div>
       </div>
     </div>
   );
