@@ -1,5 +1,4 @@
-/* Global CSS – premium dark aesthetic */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Outfit:wght@400;600;800&display=swap');
 
 html, body, #root {
   margin: 0;
@@ -7,9 +6,18 @@ html, body, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #0d0d0d 70%);
-  font-family: 'Inter', sans-serif;
+  background-color: #050505;
+  background-image: radial-gradient(circle at 20% 30%, #101a2e 0%, transparent 60%),
+                    radial-gradient(circle at 80% 80%, #16241a 0%, transparent 60%);
+  background-size: 200% 200%;
+  font-family: 'Outfit', 'Inter', sans-serif;
   color: #f5f5f5;
+  animation: bg-shift 15s infinite alternate ease-in-out;
+}
+
+@keyframes bg-shift {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
 }
 
 /* subtle grid overlay */
@@ -17,30 +25,69 @@ body::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 40px 40px;
   pointer-events: none;
-  opacity: 0.06;
+  opacity: 0.2;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
+  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 90%);
 }
 
-/* default cursor */
-body, canvas {
-  cursor: default;
+.glass-panel {
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  padding: 12px 16px;
 }
 
-/* minimal button style */
-.button {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 4px;
-  color: #fafafa;
-  padding: 4px 8px;
-  font-size: 0.8rem;
+.distraction-item {
+  border-radius: 8px;
+  background: rgba(255, 50, 50, 0.15);
+  border: 1px solid rgba(255, 50, 50, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 50, 50, 0.2), inset 0 0 10px rgba(255, 50, 50, 0.1);
+  backdrop-filter: blur(4px);
+  text-shadow: 0 0 5px rgba(255, 50, 50, 0.8);
+  transition: opacity 0.5s, transform 0.2s, box-shadow 0.2s;
+}
+
+.distraction-item:hover {
+  background: rgba(255, 50, 50, 0.25);
+  box-shadow: 0 6px 20px rgba(255, 50, 50, 0.4), inset 0 0 15px rgba(255, 50, 50, 0.2);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.interactive-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #fff;
   cursor: pointer;
-  user-select: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
-.button:hover {
-  background: rgba(255,255,255,0.12);
+.interactive-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
