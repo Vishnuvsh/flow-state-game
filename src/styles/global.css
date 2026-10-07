@@ -1,0 +1,46 @@
+/* Global CSS – premium dark aesthetic */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;800;900&display=swap');
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #0a0a0a 0%, #0d0d0d 70%);
+  font-family: 'Inter', sans-serif;
+  color: #f5f5f5;
+}
+
+/* subtle grid overlay */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  opacity: 0.06;
+}
+
+/* default cursor */
+body, canvas {
+  cursor: default;
+}
+
+/* minimal button style */
+.button {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 4px;
+  color: #fafafa;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.button:hover {
+  background: rgba(255,255,255,0.12);
+}
