@@ -609,9 +609,9 @@ export default function HeroScene(): React.ReactElement {
     resizeCanvas(width, height);
 
     // Coordinate helpers responsive to screen size
-    const getLampAnchor = (w: number) => ({ x: w * 0.54, y: -45 });
+    const getLampAnchor = (w: number) => ({ x: w * 0.5, y: -45 });
     const getLampStart = (w: number, h: number) => ({
-      x: w * 0.54,
+      x: w * 0.5,
       y: Math.max(175, Math.min(245, h * 0.27)),
     });
     const getSlingAnchor = (w: number, h: number) => ({
@@ -666,7 +666,7 @@ export default function HeroScene(): React.ReactElement {
 
     const distractions: DistractionEntity[] = DISTRACTION_CONFIGS.map((cfg, i) => {
       const y = buildDistractionY(i, DISTRACTION_CONFIGS.length, height);
-      const body = Bodies.rectangle(width * 0.54, y, cfg.width, cfg.height, {
+      const body = Bodies.rectangle(width * 0.5, y, cfg.width, cfg.height, {
         isStatic: true,
         restitution: 0.9,
         label: 'distraction',
@@ -983,6 +983,9 @@ export default function HeroScene(): React.ReactElement {
 
       lampConstraint.pointA = lampAnchor;
       lampConstraint.length = lampStart.y - lampAnchor.y;
+      if (Math.abs(lampBody.velocity.x) < 0.1 && Math.abs(lampBody.velocity.y) < 0.1) {
+        Body.setPosition(lampBody, { x: lampStart.x, y: lampStart.y });
+      }
 
       if (slingConstraint) {
         slingConstraint.pointA = slingAnchor;
@@ -1075,7 +1078,7 @@ export default function HeroScene(): React.ReactElement {
         d.shudderY *= 0.82;
 
         if (!isZen && s.isOn) {
-          const swingX = width * 0.54 + Math.sin(now * d.speed + d.phaseOffset) * (width * d.rangeRatio);
+          const swingX = width * 0.5 + Math.sin(now * d.speed + d.phaseOffset) * (width * d.rangeRatio);
           const bobY = d.baseY + Math.cos(now * 0.0022 + idx * 1.3) * 6;
           Body.setPosition(d.body, { x: swingX, y: bobY });
         }
@@ -1463,7 +1466,7 @@ export default function HeroScene(): React.ReactElement {
       // Main Orb Body
       ctx.shadowColor = s.isOn ? (isZen ? '#ffd700' : '#00ff87') : '#ff3366';
       ctx.shadowBlur = s.isOn ? 38 * rebootFlicker : 10;
-      const orbGrad = ctx.createRadialGradient(lx - 10, ly - 10, 4, lx, ly, lampRadius);
+      const orbGrad = ctx.createRadialGradient(lx, ly, 4, lx, ly, lampRadius);
       if (s.isOn) {
         if (isZen) {
           orbGrad.addColorStop(0, '#ffffff');
